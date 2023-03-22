@@ -1,3 +1,3 @@
 
 if __name__ == '__main__':
-    print("Team R\nvor-o-na: 78507829")
+    print("Team R\nMPR235953\nThePuccaPl\nvor-o-na")
