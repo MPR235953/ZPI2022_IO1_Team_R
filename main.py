@@ -10,6 +10,10 @@ def mult(a, b):
 def difference(a, b):
     return a-b
 
+
+def mod(a, b):
+    return a % b
+
 def addition(a, b):
     return a+b
 
