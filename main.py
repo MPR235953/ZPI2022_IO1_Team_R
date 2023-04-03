@@ -13,5 +13,12 @@ def difference(a, b):
 def addition(a, b):
     return a+b
 
+# c4
+def isEven(a):
+    return (a % 2) == 0
+
 if __name__ == '__main__':
     print("Team R\nMPR235953\nThePuccaPl\nvor-o-na")
+# c1
+# c2
+# c3
