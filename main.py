@@ -16,9 +16,6 @@ def difference(a, b):
 
 # returns the sum of two numbers
 
-def mod(a, b):
-    return a % b
-
 def addition(a, b):
     return a+b
 
