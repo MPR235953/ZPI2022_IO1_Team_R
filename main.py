@@ -4,13 +4,20 @@ def division(a: float, b: float) -> float:
         return a / b
     except ZeroDivisionError:
         print("ZeroDivisionError :(")
-        
+
+
+# returns the product of two numbers
+
 def mult(a, b):
     return a*b
 
+# returns the difference between two numbers
 def difference(a, b):
     return a-b
 # com1
+
+# returns the sum of two numbers
+
 def addition(a, b):
     return a+b
 #com2
