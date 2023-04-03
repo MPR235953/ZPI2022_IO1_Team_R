@@ -3,7 +3,8 @@ def division(a: float, b: float) -> float:
         return a / b
     except ZeroDivisionError:
         print("ZeroDivisionError :(")
-        
+
+# returns the product of two numbers
 def mult(a, b):
     return a*b
 
