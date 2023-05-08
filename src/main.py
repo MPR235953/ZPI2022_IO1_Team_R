@@ -60,5 +60,21 @@ def get_half_year(code):
     return data1 + data2
 
 
+def get_year(code):
+    url = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(93) + '/' + get_today() + '/'
+    url2 = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(186) + '/' + get_date(93) + '/'
+    url3 = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(279) + '/' + get_date(186) + '/'
+    url4 = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(372) + '/' + get_date(279) + '/'
+    response = requests.get(url)
+    response2 = requests.get(url2)
+    response3 = requests.get(url3)
+    response4 = requests.get(url4)
+    data1 = extract_data(response.json())
+    data2 = extract_data(response2.json())
+    data3 = extract_data(response3.json())
+    data4 = extract_data(response4.json())
+    return data1 + data2 + data3 + data4
+
+
 if __name__ == '__main__':
     pass
