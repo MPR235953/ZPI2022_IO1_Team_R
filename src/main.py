@@ -29,5 +29,12 @@ def get_week(code):
     return data
 
 
+def get_month(code):
+    url = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(31) + '/' + get_today() + '/'
+    response = requests.get(url)
+    data = extract_data(response.json())
+    return data
+
+
 if __name__ == '__main__':
     pass
