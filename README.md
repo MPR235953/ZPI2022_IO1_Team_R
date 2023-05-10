@@ -12,19 +12,30 @@ The supported currencies are EUR and USD.
 ### Project structure
 ```
 .
-├── .circleci
-│   └── config.yml
+├── .github
+│   └── workflows
+│       ├── app_tests.yml
+│       └── release_maker.yml
+├── reports
+│    ├── {0}.md
+│    │   ...
+│    └── {n}.md
 ├── src
 │   └── main.py
 ├── tests
-│    └── test.py
+│    ├── test_{name_0}.py
+│    │   ...
+│    └── test_{name_n}.py
+├── README.md
 └── requirements.txt
 ```
 
 where 
-* **.circleci** contain config.yml file with configuration to CI system
+* **.github** contain CI System files
+* **reports** test reports
 * **src** is a dir where we store app files
 * **tests** dir contains test files
+* **README.md** this file
 * **requirements.txt** is a file with list of all python modules used by our app
 
 
@@ -53,7 +64,7 @@ where
 
 
 ### Documentation
-Not specified yet
+https://github.com/IIS-ZPI/ZPI2022_IO1_Team_R/wiki
 
 
 ### Backlog
@@ -61,8 +72,8 @@ https://github.com/orgs/IIS-ZPI/projects/14/views/1
 
 
 ### CI Sysyem
-https://app.circleci.com/pipelines/github/IIS-ZPI/ZPI2022_IO1_Team_R
+https://github.com/IIS-ZPI/ZPI2022_IO1_Team_R/actions
 
 
 ### Reports
-Not specified yet
+https://github.com/IIS-ZPI/ZPI2022_IO1_Team_R/tree/main/reports
