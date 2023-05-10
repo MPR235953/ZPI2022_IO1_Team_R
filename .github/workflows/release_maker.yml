@@ -1,0 +1,57 @@
+name: Create Release Tag
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - release
+
+jobs:
+  create-release-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Determine current tag number
+        id: determine_tag_number
+        run: |
+          current_tag=$(git describe --tags --abbrev=0)
+          IFS='.' read -ra tag_parts <<< "$current_tag"
+          
+          for ((i=2; i>=0; i--))
+          do
+            if [ "${tag_parts[i]}" -lt 9 ]
+            then
+              tag_parts[i]=$(("${tag_parts[i]}" + 1))
+              break
+            else
+              tag_parts[i]=0
+            fi
+          done
+          
+          new_tag="${tag_parts[0]}.${tag_parts[1]}.${tag_parts[2]}"
+          echo "::set-output name=new_tag::$new_tag"
+      - name: Debug
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "New tag: ${{ steps.determine_tag_number.outputs.new_tag }}"
+          git tag
+          git rev-parse HEAD
+          echo "GitHub ref: ${{ github.ref }}"
+          echo "GitHub token: ${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Create release and tag
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.determine_tag_number.outputs.new_tag }}
+          release_name: Release ${{ steps.determine_tag_number.outputs.new_tag }}
+          body: |
+            This is an automated release created by a GitHub Actions workflow.
+          draft: false
+          prerelease: false
