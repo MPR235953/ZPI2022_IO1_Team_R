@@ -1,5 +1,7 @@
 import datetime
 import requests
+import numpy as np
+
 
 USD_CODE = 'USD'
 EUR_CODE = 'EUR'
@@ -15,11 +17,14 @@ def get_date(offset):
 
 
 def extract_data(json):
-    rates = json['rates']
-    data = []
-    for rate in rates:
-        data.append(rate['mid'])
-    return data
+    try:
+        rates = json['rates']
+        data = []
+        for rate in rates:
+            data.append(rate['mid'])
+        return data
+    except Exception:
+        return None
 
 
 def get_week(code):
@@ -91,6 +96,15 @@ def get_year(code):
         data4 = extract_data(response4.json())
         return data1 + data2 + data3 + data4
     else:
+        return None
+
+
+def get_median(data):
+    try:
+        data = np.sort(data)
+        median = np.median(data)
+        return median
+    except Exception:
         return None
 
 
