@@ -100,14 +100,5 @@ def get_year(code):
         return None
 
 
-def get_median(data):
-    try:
-        data = np.sort(data)
-        median = np.median(data)
-        return median
-    except Exception:
-        return None
-
-
 if __name__ == '__main__':
-    print(get_month(USD_CODE))
+    pass
