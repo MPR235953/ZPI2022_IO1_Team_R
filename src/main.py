@@ -25,29 +25,41 @@ def extract_data(json):
 def get_week(code):
     url = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(7) + '/' + get_today() + '/'
     response = requests.get(url)
-    data = extract_data(response.json())
-    return data
+    if response.status_code == 200:
+        data = extract_data(response.json())
+        return data
+    else:
+        return None
 
 
 def get_two_week(code):
     url = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(14) + '/' + get_today() + '/'
     response = requests.get(url)
-    data = extract_data(response.json())
-    return data
+    if response.status_code == 200:
+        data = extract_data(response.json())
+        return data
+    else:
+        return None
 
 
 def get_month(code):
     url = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(31) + '/' + get_today() + '/'
     response = requests.get(url)
-    data = extract_data(response.json())
-    return data
+    if response.status_code == 200:
+        data = extract_data(response.json())
+        return data
+    else:
+        return None
 
 
 def get_quarter(code):
     url = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(93) + '/' + get_today() + '/'
     response = requests.get(url)
-    data = extract_data(response.json())
-    return data
+    if response.status_code == 200:
+        data = extract_data(response.json())
+        return data
+    else:
+        return None
 
 
 def get_half_year(code):
@@ -55,9 +67,12 @@ def get_half_year(code):
     url2 = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(186) + '/' + get_date(93) + '/'
     response = requests.get(url)
     response2 = requests.get(url2)
-    data1 = extract_data(response.json())
-    data2 = extract_data(response2.json())
-    return data1 + data2
+    if response.status_code == 200 and response2.status_code == 200:
+        data1 = extract_data(response.json())
+        data2 = extract_data(response2.json())
+        return data1 + data2
+    else:
+        return None
 
 
 def get_year(code):
@@ -69,11 +84,14 @@ def get_year(code):
     response2 = requests.get(url2)
     response3 = requests.get(url3)
     response4 = requests.get(url4)
-    data1 = extract_data(response.json())
-    data2 = extract_data(response2.json())
-    data3 = extract_data(response3.json())
-    data4 = extract_data(response4.json())
-    return data1 + data2 + data3 + data4
+    if response.status_code == 200 and response2.status_code == 200 and response3.status_code == 200 and response4.status_code == 200:
+        data1 = extract_data(response.json())
+        data2 = extract_data(response2.json())
+        data3 = extract_data(response3.json())
+        data4 = extract_data(response4.json())
+        return data1 + data2 + data3 + data4
+    else:
+        return None
 
 
 if __name__ == '__main__':
