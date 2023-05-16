@@ -148,5 +148,9 @@ def get_standard_deviation(data):
     return np.st(data)
 
 
+def get_coefficient_of_variation(data):
+    return get_standard_deviation(data)/np.mean(data)
+
+
 if __name__ == '__main__':
     pass
