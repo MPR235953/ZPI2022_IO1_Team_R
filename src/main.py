@@ -144,5 +144,9 @@ def get_median(data):
     return median
 
 
+def get_standard_deviation(data):
+    return np.st(data)
+
+
 if __name__ == '__main__':
     pass
