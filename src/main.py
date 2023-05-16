@@ -138,5 +138,11 @@ def get_sessions(data):
     return [decreasing, zero, increasing]
 
 
+def get_median(data):
+    data = np.sort(data)
+    median = np.median(data)
+    return median
+
+
 if __name__ == '__main__':
     pass
