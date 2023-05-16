@@ -152,5 +152,17 @@ def get_coefficient_of_variation(data):
     return get_standard_deviation(data)/np.mean(data)
 
 
+def draw_sessions_table(code):
+    x = prettytable.PrettyTable()
+    x.field_names = ["period", "decreasing", "no changes", "increasing"]
+    x.add_row(['one week'] + get_sessions(get_week(code)))
+    x.add_row(['two weeks'] + get_sessions(get_two_week(code)))
+    x.add_row(['one month'] + get_sessions(get_month(code)))
+    x.add_row(['one quarter'] + get_sessions(get_quarter(code)))
+    x.add_row(['half year'] + get_sessions(get_half_year(code)))
+    x.add_row(['one year'] + get_sessions(get_year(code)))
+    print(x)
+
+
 if __name__ == '__main__':
     pass
