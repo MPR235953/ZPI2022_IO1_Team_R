@@ -1,7 +1,7 @@
 import datetime
 import requests
 import numpy as np
-
+import prettytable
 
 USD_CODE = 'USD'
 EUR_CODE = 'EUR'
@@ -50,7 +50,6 @@ def get_two_week(code):
 def get_month(code):
     url = 'http://api.nbp.pl/api/exchangerates/rates/A/' + code + '/' + get_date(31) + '/' + get_today() + '/'
     response = requests.get(url)
-    print(response.status_code)
     if response.ok:
         data = extract_data(response.json())
         return data
@@ -98,6 +97,45 @@ def get_year(code):
         return data1 + data2 + data3 + data4
     else:
         return None
+
+
+def process(lst):
+    if len(lst) < 2:
+        return [lst]
+
+    res = []
+    temp = [lst[0]]
+    is_up = lst[1] > lst[0]
+
+    for i in range(1, len(lst)):
+        curr = lst[i]
+        prev = lst[i - 1]
+
+        if (curr > prev and not is_up) or (curr < prev and is_up):
+            res += [temp] + process(lst[i:])
+            return res
+
+        temp.append(curr)
+
+    return [temp]
+
+
+def get_sessions(data):
+    data = process(data)
+    increasing = 0
+    decreasing = 0
+    zero = 0
+    for d in data:
+        if (len(d) == 1) or d.count(d[0]) == len(d):
+            zero += 1
+        else:
+            arr = np.array(d)
+            diff = np.diff(arr)
+            if np.all(diff > 0):
+                increasing += 1
+            else:
+                decreasing += 1
+    return [decreasing, zero, increasing]
 
 
 if __name__ == '__main__':
