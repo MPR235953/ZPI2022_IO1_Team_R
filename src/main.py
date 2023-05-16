@@ -164,5 +164,22 @@ def draw_sessions_table(code):
     print(x)
 
 
+def draw_stats_table(code):
+    x = prettytable.PrettyTable()
+    week_data = get_week(code)
+    two_week_data = get_two_week(code)
+    month_data = get_month(code)
+    quarter_data = get_quarter(code)
+    half_year_data = get_half_year(code)
+    year_data = get_year(code)
+    x.field_names = ["period", "median", "standard deviation", "coefficient of variation"]
+    x.add_row(['one week', get_median(week_data), get_standard_deviation(week_data), get_coefficient_of_variation(week_data)])
+    x.add_row(['two weeks', get_median(two_week_data), get_standard_deviation(two_week_data), get_coefficient_of_variation(two_week_data)])
+    x.add_row(['one month', get_median(month_data), get_standard_deviation(month_data), get_coefficient_of_variation(month_data)])
+    x.add_row(['one quarter', get_median(quarter_data), get_standard_deviation(quarter_data), get_coefficient_of_variation(quarter_data)])
+    x.add_row(['half year', get_median(half_year_data), get_standard_deviation(half_year_data), get_coefficient_of_variation(half_year_data)])
+    x.add_row(['one year', get_median(year_data), get_standard_deviation(year_data), get_coefficient_of_variation(year_data)])
+
+
 if __name__ == '__main__':
     pass
