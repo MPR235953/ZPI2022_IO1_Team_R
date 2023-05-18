@@ -145,7 +145,7 @@ def get_median(data):
 
 
 def get_standard_deviation(data):
-    return np.st(data)
+    return np.std(data)
 
 
 def get_coefficient_of_variation(data):
@@ -179,7 +179,7 @@ def draw_stats_table(code):
     x.add_row(['one quarter', get_median(quarter_data), get_standard_deviation(quarter_data), get_coefficient_of_variation(quarter_data)])
     x.add_row(['half year', get_median(half_year_data), get_standard_deviation(half_year_data), get_coefficient_of_variation(half_year_data)])
     x.add_row(['one year', get_median(year_data), get_standard_deviation(year_data), get_coefficient_of_variation(year_data)])
-
+    print(x)
 
 if __name__ == '__main__':
     pass
