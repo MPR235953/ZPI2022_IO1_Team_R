@@ -180,16 +180,46 @@ def draw_sessions_table(data):
         pass
 
 
-def draw_stats_table(data):
+def draw_med_table(data):
     try:
         x = prettytable.PrettyTable()
-        x.field_names = ["period", "median", "standard deviation", "coefficient of variation"]
-        x.add_row(['one week', get_median(data[1]), get_standard_deviation(data[1]), get_coefficient_of_variation(data[1])])
-        x.add_row(['two weeks', get_median(data[2]), get_standard_deviation(data[2]), get_coefficient_of_variation(data[2])])
-        x.add_row(['one month', get_median(data[3]), get_standard_deviation(data[3]), get_coefficient_of_variation(data[3])])
-        x.add_row(['one quarter', get_median(data[4]), get_standard_deviation(data[4]),get_coefficient_of_variation(data[4])])
-        x.add_row(['half year', get_median(data[5]), get_standard_deviation(data[5]), get_coefficient_of_variation(data[5])])
-        x.add_row(['one year', get_median(data[6]), get_standard_deviation(data[6]), get_coefficient_of_variation(data[6])])
+        x.field_names = ["period", "median"]
+        x.add_row(['one week', get_median(data[1])])
+        x.add_row(['two weeks', get_median(data[2])])
+        x.add_row(['one month', get_median(data[3])])
+        x.add_row(['one quarter', get_median(data[4])])
+        x.add_row(['half year', get_median(data[5])])
+        x.add_row(['one year', get_median(data[6])])
+        print(x)
+    except IndexError:
+        pass
+
+
+def draw_std_table(data):
+    try:
+        x = prettytable.PrettyTable()
+        x.field_names = ["period", "standard deviation"]
+        x.add_row(['one week', get_standard_deviation(data[1])])
+        x.add_row(['two weeks', get_standard_deviation(data[2])])
+        x.add_row(['one month', get_standard_deviation(data[3])])
+        x.add_row(['one quarter', get_standard_deviation(data[4])])
+        x.add_row(['half year', get_standard_deviation(data[5])])
+        x.add_row(['one year', get_standard_deviation(data[6])])
+        print(x)
+    except IndexError:
+        pass
+
+
+def draw_cov_table(data):
+    try:
+        x = prettytable.PrettyTable()
+        x.field_names = ["period", "coefficient of variation"]
+        x.add_row(['one week', get_coefficient_of_variation(data[1])])
+        x.add_row(['two weeks', get_coefficient_of_variation(data[2])])
+        x.add_row(['one month', get_coefficient_of_variation(data[3])])
+        x.add_row(['one quarter', get_coefficient_of_variation(data[4])])
+        x.add_row(['half year', get_coefficient_of_variation(data[5])])
+        x.add_row(['one year', get_coefficient_of_variation(data[6])])
         print(x)
     except IndexError:
         pass
