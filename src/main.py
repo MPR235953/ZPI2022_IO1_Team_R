@@ -1,10 +1,18 @@
+import sys
 import datetime
 import requests
 import numpy as np
 import prettytable
+import enum
 
-USD_CODE = 'USD'
-EUR_CODE = 'EUR'
+CODES = ["USD", "EUR"]
+STATS = ["ses", "med", "std", "cov"]
+
+
+class Errors(enum.Enum):
+    OK = 0
+    UNSUPPORTED_COMMAND = 1
+    NO_CONNECTION = 2
 
 
 def get_today():
@@ -23,7 +31,7 @@ def extract_data(json):
         for rate in rates:
             data.append(rate['mid'])
         return data
-    except Exception:
+    except KeyError:
         return None
 
 
@@ -169,45 +177,45 @@ def draw_sessions_table(data):
     try:
         x = prettytable.PrettyTable()
         x.field_names = ["period", "decreasing", "no changes", "increasing"]
-        x.add_row(['one week'] + get_sessions(data[1]))
-        x.add_row(['two weeks'] + get_sessions(data[2]))
-        x.add_row(['one month'] + get_sessions(data[3]))
-        x.add_row(['one quarter'] + get_sessions(data[4]))
-        x.add_row(['half year'] + get_sessions(data[5]))
+        x.add_row(['one week'] + get_sessions(data[0]))
+        x.add_row(['two weeks'] + get_sessions(data[1]))
+        x.add_row(['one month'] + get_sessions(data[2]))
+        x.add_row(['one quarter'] + get_sessions(data[3]))
+        x.add_row(['half year'] + get_sessions(data[4]))
         x.add_row(['one year'] + get_sessions(data[5]))
         print(x)
     except IndexError:
-        pass
+        raise Exception("Not enough data")
 
 
 def draw_med_table(data):
     try:
         x = prettytable.PrettyTable()
         x.field_names = ["period", "median"]
-        x.add_row(['one week', get_median(data[1])])
-        x.add_row(['two weeks', get_median(data[2])])
-        x.add_row(['one month', get_median(data[3])])
-        x.add_row(['one quarter', get_median(data[4])])
-        x.add_row(['half year', get_median(data[5])])
-        x.add_row(['one year', get_median(data[6])])
+        x.add_row(['one week', get_median(data[0])])
+        x.add_row(['two weeks', get_median(data[1])])
+        x.add_row(['one month', get_median(data[2])])
+        x.add_row(['one quarter', get_median(data[3])])
+        x.add_row(['half year', get_median(data[4])])
+        x.add_row(['one year', get_median(data[5])])
         print(x)
     except IndexError:
-        pass
+        raise Exception("Not enough data")
 
 
 def draw_std_table(data):
     try:
         x = prettytable.PrettyTable()
         x.field_names = ["period", "standard deviation"]
-        x.add_row(['one week', get_standard_deviation(data[1])])
-        x.add_row(['two weeks', get_standard_deviation(data[2])])
-        x.add_row(['one month', get_standard_deviation(data[3])])
-        x.add_row(['one quarter', get_standard_deviation(data[4])])
-        x.add_row(['half year', get_standard_deviation(data[5])])
-        x.add_row(['one year', get_standard_deviation(data[6])])
+        x.add_row(['one week', get_standard_deviation(data[0])])
+        x.add_row(['two weeks', get_standard_deviation(data[1])])
+        x.add_row(['one month', get_standard_deviation(data[2])])
+        x.add_row(['one quarter', get_standard_deviation(data[3])])
+        x.add_row(['half year', get_standard_deviation(data[4])])
+        x.add_row(['one year', get_standard_deviation(data[5])])
         print(x)
     except IndexError:
-        pass
+        raise Exception("Not enough data")
 
 
 def draw_cov_table(data):
@@ -222,8 +230,53 @@ def draw_cov_table(data):
         x.add_row(['one year', get_coefficient_of_variation(data[6])])
         print(x)
     except IndexError:
-        pass
+        raise Exception("Not enough data")
+
+
+def draw_table(stat, data):
+    if stat == STATS[0]:
+        draw_sessions_table(data)
+    elif stat == STATS[1]:
+        draw_med_table(data)
+    elif stat == STATS[2]:
+        draw_std_table(data)
+    elif stat == STATS[3]:
+        draw_cov_table(data)
+
+
+def display_help():
+    print("not implemented yet")
+
+
+def handle_command(code, stat):
+    if code in CODES and stat in STATS:
+        data = get_all_data(currency_code)
+        if data is None:
+            return Errors.NO_CONNECTION
+        else:
+            draw_table(stat, data)
+    else:
+        return Errors.UNSUPPORTED_COMMAND
+    return Errors.OK
 
 
 if __name__ == '__main__':
-    pass
+
+    try:
+        currency_code = sys.argv[1]
+        if currency_code == "help":
+            display_help()
+            exit(0)
+        statistic = sys.argv[2]
+
+        return_code = handle_command(currency_code, statistic)
+
+        if return_code is Errors.OK:
+            input("Press Enter to exit...")
+        elif return_code is Errors.NO_CONNECTION:
+            print("Could not connect to API")
+        elif return_code is Errors.UNSUPPORTED_COMMAND:
+            print("Unsupported command or currency")
+
+    except IndexError:
+        print("Not enough arguments provided")
