@@ -222,12 +222,12 @@ def draw_cov_table(data):
     try:
         x = prettytable.PrettyTable()
         x.field_names = ["period", "coefficient of variation"]
-        x.add_row(['one week', get_coefficient_of_variation(data[1])])
-        x.add_row(['two weeks', get_coefficient_of_variation(data[2])])
-        x.add_row(['one month', get_coefficient_of_variation(data[3])])
-        x.add_row(['one quarter', get_coefficient_of_variation(data[4])])
-        x.add_row(['half year', get_coefficient_of_variation(data[5])])
-        x.add_row(['one year', get_coefficient_of_variation(data[6])])
+        x.add_row(['one week', get_coefficient_of_variation(data[0])])
+        x.add_row(['two weeks', get_coefficient_of_variation(data[1])])
+        x.add_row(['one month', get_coefficient_of_variation(data[2])])
+        x.add_row(['one quarter', get_coefficient_of_variation(data[3])])
+        x.add_row(['half year', get_coefficient_of_variation(data[4])])
+        x.add_row(['one year', get_coefficient_of_variation(data[5])])
         print(x)
     except IndexError:
         raise Exception("Not enough data")
@@ -261,7 +261,7 @@ def handle_command(code, stat):
 
 
 if __name__ == '__main__':
-
+    time = datetime.datetime.now()
     try:
         currency_code = sys.argv[1]
         if currency_code == "help":
@@ -272,6 +272,7 @@ if __name__ == '__main__':
         return_code = handle_command(currency_code, statistic)
 
         if return_code is Errors.OK:
+            print(datetime.datetime.now() - time)
             input("Press Enter to exit...")
         elif return_code is Errors.NO_CONNECTION:
             print("Could not connect to API")
