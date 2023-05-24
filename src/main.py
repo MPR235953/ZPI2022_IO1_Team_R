@@ -4,6 +4,7 @@ import requests
 import numpy as np
 import prettytable
 import enum
+import asyncio
 
 CODES = ["USD", "EUR"]
 STATS = ["ses", "med", "std", "cov"]
@@ -254,9 +255,9 @@ def display_help():
     print("not implemented yet")
 
 
-def handle_command(code, stat):
+async def handle_command(code, stat):
     if code in CODES and stat in STATS:
-        data = get_all_data(currency_code)
+        data = get_all_data(code)
         if data is None:
             return Errors.NO_CONNECTION
         else:
@@ -266,7 +267,7 @@ def handle_command(code, stat):
     return Errors.OK
 
 
-if __name__ == '__main__':
+async def main():
     try:
         currency_code = sys.argv[1]
         if currency_code == "help":
@@ -274,7 +275,7 @@ if __name__ == '__main__':
             exit(0)
         statistic = sys.argv[2]
 
-        return_code = handle_command(currency_code, statistic)
+        return_code = await handle_command(currency_code, statistic)
 
         if return_code is Errors.OK:
             input("Press Enter to exit...")
@@ -285,3 +286,7 @@ if __name__ == '__main__':
 
     except IndexError:
         print("Not enough arguments provided")
+
+
+if __name__ == '__main__':
+    asyncio.run(main())
