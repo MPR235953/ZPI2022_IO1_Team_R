@@ -251,7 +251,23 @@ def draw_table(stat, data):
 
 
 def display_help():
-    print("not implemented yet")
+    currencies = [["Code", "Name"], [CODES[0], "United States dollar"], [CODES[1], "Euro"]]
+    commands = [["Command", "Description"],
+                [STATS[0], "Displays increasing, decreasing and unchanging sessions for given currency data"],
+                [STATS[1], "Displays median for given currency data"],
+                [STATS[2], "Displays standard deviation for given currency data"],
+                [STATS[3], "Displays coefficient of variation for given currency data"]]
+    print("Supported currencies:")
+    for entries in currencies:
+        for entry in entries:
+            print(entry.ljust(10), end='')
+        print()
+    print("Supported commands:")
+    for entries in commands:
+        for entry in entries:
+            print(entry.ljust(10), end='')
+        print()
+    print("Sample command usage\nmain.py EUR med")
 
 
 def handle_command(code, stat):
@@ -283,7 +299,7 @@ if __name__ == '__main__':
         elif return_code is Errors.NO_CONNECTION:
             print("Could not connect to API")
         elif return_code is Errors.UNSUPPORTED_COMMAND:
-            print("Unsupported command or currency")
+            print("Unsupported command or currency, see help")
 
     except IndexError:
         print("Not enough arguments provided")
