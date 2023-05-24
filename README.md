@@ -17,15 +17,16 @@ The supported currencies are EUR and USD.
 │       ├── app_tests.yml
 │       └── release_maker.yml
 ├── reports
-│    ├── {0}.md
+│    ├── Test_Report_{0}.docx
 │    │   ...
-│    └── {n}.md
+│    └── Test_Report_{n}.docx
 ├── src
 │   └── main.py
 ├── tests
 │    ├── test_{name_0}.py
 │    │   ...
 │    └── test_{name_n}.py
+├── .gitignore
 ├── README.md
 └── requirements.txt
 ```
@@ -35,6 +36,7 @@ where
 * **reports** test reports
 * **src** is a dir where we store app files
 * **tests** dir contains test files
+* **.gitignore** to not commit unnecessary stuff
 * **README.md** this file
 * **requirements.txt** is a file with list of all python modules used by our app
 
@@ -63,17 +65,13 @@ where
 6. python3 src/main.py
 
 
-### Documentation
-https://github.com/IIS-ZPI/ZPI2022_IO1_Team_R/wiki
-
-
 ### Backlog
 https://github.com/orgs/IIS-ZPI/projects/14/views/1
 
 
-### CI Sysyem
+### CI System
 https://github.com/IIS-ZPI/ZPI2022_IO1_Team_R/actions
 
 
-### Reports
+### Reports / Documentation
 https://github.com/IIS-ZPI/ZPI2022_IO1_Team_R/tree/main/reports
