@@ -1,13 +1,15 @@
 import sys
 import datetime
+import threading
 import requests
 import numpy as np
 import prettytable
 import enum
-import asyncio
+import itertools
 
 CODES = ["USD", "EUR"]
 STATS = ["ses", "med", "std", "cov"]
+global working
 
 
 class Errors(enum.Enum):
@@ -255,9 +257,15 @@ def display_help():
     print("not implemented yet")
 
 
-async def handle_command(code, stat):
+def handle_command(code, stat):
+    global working
+    working = True
+    spin_thread = threading.Thread(target=spin)
+    spin_thread.start()
     if code in CODES and stat in STATS:
         data = get_all_data(code)
+        working = False
+        spin_thread.join()
         if data is None:
             return Errors.NO_CONNECTION
         else:
@@ -267,15 +275,23 @@ async def handle_command(code, stat):
     return Errors.OK
 
 
-async def main():
+def spin():
+    global working
+    spinner = itertools.cycle(['-', '/', '|', '\\'])
+    while working:
+        sys.stdout.write(next(spinner))
+        sys.stdout.flush()
+        sys.stdout.write('\b')
+
+
+if __name__ == '__main__':
     try:
         currency_code = sys.argv[1]
         if currency_code == "help":
             display_help()
             exit(0)
         statistic = sys.argv[2]
-
-        return_code = await handle_command(currency_code, statistic)
+        return_code = handle_command(currency_code, statistic)
 
         if return_code is Errors.OK:
             input("Press Enter to exit...")
@@ -286,7 +302,3 @@ async def main():
 
     except IndexError:
         print("Not enough arguments provided")
-
-
-if __name__ == '__main__':
-    asyncio.run(main())
