@@ -267,7 +267,6 @@ def handle_command(code, stat):
 
 
 if __name__ == '__main__':
-    time = datetime.datetime.now()
     try:
         currency_code = sys.argv[1]
         if currency_code == "help":
@@ -278,7 +277,6 @@ if __name__ == '__main__':
         return_code = handle_command(currency_code, statistic)
 
         if return_code is Errors.OK:
-            print(datetime.datetime.now() - time)
             input("Press Enter to exit...")
         elif return_code is Errors.NO_CONNECTION:
             print("Could not connect to API")
