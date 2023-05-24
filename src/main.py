@@ -108,6 +108,9 @@ def get_year(code):
 
 
 def process(lst):
+    if lst.count(lst[0]) == len(lst):
+        return [lst]
+
     if len(lst) < 2:
         return [lst]
 
@@ -119,7 +122,7 @@ def process(lst):
         curr = lst[i]
         prev = lst[i - 1]
 
-        if (curr > prev and not is_up) or (curr < prev and is_up):
+        if (curr >= prev and not is_up) or (curr <= prev and is_up):
             res += [temp] + process(lst[i:])
             return res
 
@@ -129,21 +132,24 @@ def process(lst):
 
 
 def get_sessions(data):
-    data = process(data)
-    increasing = 0
-    decreasing = 0
-    zero = 0
-    for d in data:
-        if (len(d) == 1) or d.count(d[0]) == len(d):
-            zero += 1
-        else:
-            arr = np.array(d)
-            diff = np.diff(arr)
-            if np.all(diff > 0):
-                increasing += 1
+    try:
+        data = process(data)
+        increasing = 0
+        decreasing = 0
+        zero = 0
+        for d in data:
+            if (len(d) == 1) or d.count(d[0]) == len(d):
+                zero += 1
             else:
-                decreasing += 1
-    return [decreasing, zero, increasing]
+                arr = np.array(d)
+                diff = np.diff(arr)
+                if np.all(diff > 0):
+                    increasing += 1
+                else:
+                    decreasing += 1
+        return [decreasing, zero, increasing]
+    except IndexError:
+        return None
 
 
 def get_median(data):

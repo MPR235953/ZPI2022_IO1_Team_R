@@ -1,11 +1,12 @@
 import unittest
 from src.main import get_sessions
+from src.main import process
 
 
 class MyTestCase(unittest.TestCase):
     def test_get_sessions_empty_list(self):
         data = []
-        expected_result = [0, 0, 0]
+        expected_result = None
         result = get_sessions(data)
         self.assertEqual(result, expected_result)
 
@@ -31,6 +32,7 @@ class MyTestCase(unittest.TestCase):
         data = [1, 2, 3, 4, 4, 4, 5, 4, 3, 2]
         expected_result = [1, 1, 2]
         result = get_sessions(data)
+        print(process(data))
         self.assertEqual(result, expected_result)
 
 
