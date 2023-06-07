@@ -1,3 +1,4 @@
+import datetime
 import unittest
 from unittest import mock
 from src.main import get_week
@@ -15,8 +16,10 @@ class MyTestCase(unittest.TestCase):
         result = get_week(code)
 
         self.assertIsNone(result)
+        today = datetime.datetime.today().strftime('%Y-%m-%d')
+        days_back = (datetime.datetime.today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d')
         mock_get.assert_called_once_with(
-            'http://api.nbp.pl/api/exchangerates/rates/A/EUR/2023-05-17/2023-05-24/')
+            'http://api.nbp.pl/api/exchangerates/rates/A/EUR/{days_back}/{today}/'.format(days_back=days_back, today=today))
 
 
 if __name__ == '__main__':
