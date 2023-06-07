@@ -1,12 +1,15 @@
 import sys
 import datetime
+import threading
 import requests
 import numpy as np
 import prettytable
 import enum
+import itertools
 
 CODES = ["USD", "EUR"]
 STATS = ["ses", "med", "std", "cov"]
+global working
 
 
 class Errors(enum.Enum):
@@ -274,30 +277,48 @@ def display_help():
 
 
 def handle_command(code, stat):
+    global working
+    working = True
+    print("Downloading data...")
+    spin_thread = threading.Thread(target=spin)
+    spin_thread.start()
     if code in CODES and stat in STATS:
-        data = get_all_data(currency_code)
+        data = get_all_data(code)
+        working = False
+        spin_thread.join()
         if data is None:
             return Errors.NO_CONNECTION
         else:
+            spin_thread = threading.Thread(target=spin)
+            spin_thread.start()
+            print("Generating statistics...")
             draw_table(stat, data)
+            spin_thread.join()
+            print("Done.")
     else:
         return Errors.UNSUPPORTED_COMMAND
     return Errors.OK
 
 
+def spin():
+    global working
+    spinner = itertools.cycle(['-', '/', '|', '\\'])
+    while working:
+        sys.stdout.write(next(spinner))
+        sys.stdout.flush()
+        sys.stdout.write('\b')
+
+
 if __name__ == '__main__':
-    time = datetime.datetime.now()
     try:
         currency_code = sys.argv[1]
         if currency_code == "help":
             display_help()
             exit(0)
         statistic = sys.argv[2]
-
         return_code = handle_command(currency_code, statistic)
 
         if return_code is Errors.OK:
-            print(datetime.datetime.now() - time)
             input("Press Enter to exit...")
         elif return_code is Errors.NO_CONNECTION:
             print("Could not connect to API")
