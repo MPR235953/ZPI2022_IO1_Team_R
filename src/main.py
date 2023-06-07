@@ -257,17 +257,20 @@ def display_help():
                 [STATS[1], "Displays median for given currency data"],
                 [STATS[2], "Displays standard deviation for given currency data"],
                 [STATS[3], "Displays coefficient of variation for given currency data"]]
+    print("---------------------------------------------------------------------------------------------------")
     print("Supported currencies:")
     for entries in currencies:
         for entry in entries:
             print(entry.ljust(10), end='')
         print()
-    print("Supported commands:")
+    print("\nSupported commands:")
     for entries in commands:
         for entry in entries:
             print(entry.ljust(10), end='')
         print()
-    print("Sample command usage\nmain.py EUR med")
+    print("\nSample command usage:\nmain.py EUR med")
+    print("\nDisplay help:\nmain.py help")
+    print("---------------------------------------------------------------------------------------------------")
 
 
 def handle_command(code, stat):
