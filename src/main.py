@@ -260,6 +260,7 @@ def display_help():
 def handle_command(code, stat):
     global working
     working = True
+    print("Downloading data...")
     spin_thread = threading.Thread(target=spin)
     spin_thread.start()
     if code in CODES and stat in STATS:
@@ -269,7 +270,12 @@ def handle_command(code, stat):
         if data is None:
             return Errors.NO_CONNECTION
         else:
+            spin_thread = threading.Thread(target=spin)
+            spin_thread.start()
+            print("Generating statistics...")
             draw_table(stat, data)
+            spin_thread.join()
+            print("Done.")
     else:
         return Errors.UNSUPPORTED_COMMAND
     return Errors.OK
